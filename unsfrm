@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+
+if [ $# -eq 0 ]
+then
+    echo "Please Enter files name that u want to restore followed by the Directory that u want to restore to(Default it is set to the current Working directoy)"
+    exit 1
+fi
+
+directory=${!#}
+
+if [[ -d $directory ]]; then
+    echo "$directory is a directory"
+    
+else [[ -f $directory ]]
+    echo $directory
+    directory=$PWD
+fi
+
+for files in "$@"
+do
+    if [ -f ~/.trash/$files ]; then
+        mv -i ~/.trash/(basename $files) $directory/
+    else
+        echo "File Does Not Exists basename $files"
+    fi
+done

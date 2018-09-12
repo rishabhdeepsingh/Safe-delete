@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+
+if [ $# -eq 0 ]
+then
+    echo "Please Enter file names as argument that u want to Safe Delete (e.g sfrm abc.txt)"
+    exit 1
+fi
+
+if [ -d "~/.trash" ]; then
+    mkdir ~/.trash
+fi
+
+
+for files in "$@"
+do
+    fileName=$(basename "$files")
+    directory=$(dirname "$files")
+    if [ -f ~/.trash/$fileName ]; then
+        echo "File $fileName already Exists. Please enter other name"
+        read name
+        mv -f $files $directory/$name
+        mv $directory/$name ~/.trash
+    else
+        echo "$fileName Sucessesfully moves to .trash"
+        mv -i $files ~/.trash
+    fi
+done
